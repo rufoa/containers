@@ -3,7 +3,6 @@ RUN ZULU_ARCH=zulu10.2+3-jdk10.0.1-linux_x64.tar.gz && \
 	ALPINE_GLIBC_PACKAGE_VERSION=2.27-r0 && \
 	INSTALL_DIR=/usr/lib/jvm && \
 	BIN_DIR=/usr/bin && \
-	MAN_DIR=/usr/share/man/man1 && \
 	ZULU_DIR=$( basename ${ZULU_ARCH} .tar.gz ) && \
 	apk add --no-cache --virtual=.build-dependencies ca-certificates wget binutils && \
 	update-ca-certificates && \
@@ -24,6 +23,5 @@ RUN ZULU_ARCH=zulu10.2+3-jdk10.0.1-linux_x64.tar.gz && \
 	mkdir -p ${INSTALL_DIR} && \
 	tar -xf ./${ZULU_ARCH} -C ${INSTALL_DIR} && rm -f ${ZULU_ARCH} && \
 	cd ${BIN_DIR} && find ${INSTALL_DIR}/${ZULU_DIR}/bin -type f -perm -a=x -exec ln -s {} . \; && \
-	mkdir -p ${MAN_DIR} && \
-	cd ${MAN_DIR} && find ${INSTALL_DIR}/${ZULU_DIR}/man/man1 -type f -name "*.1" -exec ln -s {} . \; && \
+	cd ${INSTALL_DIR}/${ZULU_DIR} && rm -rf demo man legal lib/src.zip && \
 	java -version
